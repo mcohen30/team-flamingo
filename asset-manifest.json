@@ -1,14 +1,13 @@
 {
-  "main.css": "/team-flamingo/static/css/main.7c15ecce.chunk.css",
-  "main.js": "/team-flamingo/static/js/main.da2c2d50.chunk.js",
-  "main.js.map": "/team-flamingo/static/js/main.da2c2d50.chunk.js.map",
-  "static/js/1.14421145.chunk.js": "/team-flamingo/static/js/1.14421145.chunk.js",
-  "static/js/1.14421145.chunk.js.map": "/team-flamingo/static/js/1.14421145.chunk.js.map",
+  "main.css": "/team-flamingo/static/css/main.da8c07aa.chunk.css",
+  "main.js": "/team-flamingo/static/js/main.639e95af.chunk.js",
+  "main.js.map": "/team-flamingo/static/js/main.639e95af.chunk.js.map",
+  "static/js/1.6a172a90.chunk.js": "/team-flamingo/static/js/1.6a172a90.chunk.js",
+  "static/js/1.6a172a90.chunk.js.map": "/team-flamingo/static/js/1.6a172a90.chunk.js.map",
   "runtime~main.js": "/team-flamingo/static/js/runtime~main.fae84096.js",
   "runtime~main.js.map": "/team-flamingo/static/js/runtime~main.fae84096.js.map",
-  "static/media/logo.svg": "/team-flamingo/static/media/logo.5d5d9eef.svg",
-  "static/css/main.7c15ecce.chunk.css.map": "/team-flamingo/static/css/main.7c15ecce.chunk.css.map",
+  "static/css/main.da8c07aa.chunk.css.map": "/team-flamingo/static/css/main.da8c07aa.chunk.css.map",
   "index.html": "/team-flamingo/index.html",
-  "precache-manifest.9008ddbb8a2cf1befe9b9f699e73b0ea.js": "/team-flamingo/precache-manifest.9008ddbb8a2cf1befe9b9f699e73b0ea.js",
+  "precache-manifest.177792f9a1484798d26b87e8add7eb0d.js": "/team-flamingo/precache-manifest.177792f9a1484798d26b87e8add7eb0d.js",
   "service-worker.js": "/team-flamingo/service-worker.js"
 }
