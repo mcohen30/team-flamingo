@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
 
 importScripts(
-  "/team-flamingo/precache-manifest.177792f9a1484798d26b87e8add7eb0d.js"
+  "/team-flamingo/precache-manifest.04a169ad0ccf228603091b6c8f63ea15.js"
 );
 
 workbox.clientsClaim();
