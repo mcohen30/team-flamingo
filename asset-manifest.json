@@ -1,13 +1,13 @@
 {
-  "main.css": "/team-flamingo/static/css/main.f519e9ea.chunk.css",
-  "main.js": "/team-flamingo/static/js/main.5723db67.chunk.js",
-  "main.js.map": "/team-flamingo/static/js/main.5723db67.chunk.js.map",
-  "static/js/1.69cc495f.chunk.js": "/team-flamingo/static/js/1.69cc495f.chunk.js",
-  "static/js/1.69cc495f.chunk.js.map": "/team-flamingo/static/js/1.69cc495f.chunk.js.map",
+  "main.css": "/team-flamingo/static/css/main.b499ff4c.chunk.css",
+  "main.js": "/team-flamingo/static/js/main.dcec6c64.chunk.js",
+  "main.js.map": "/team-flamingo/static/js/main.dcec6c64.chunk.js.map",
+  "static/js/1.a659d3b9.chunk.js": "/team-flamingo/static/js/1.a659d3b9.chunk.js",
+  "static/js/1.a659d3b9.chunk.js.map": "/team-flamingo/static/js/1.a659d3b9.chunk.js.map",
   "runtime~main.js": "/team-flamingo/static/js/runtime~main.fae84096.js",
   "runtime~main.js.map": "/team-flamingo/static/js/runtime~main.fae84096.js.map",
-  "static/css/main.f519e9ea.chunk.css.map": "/team-flamingo/static/css/main.f519e9ea.chunk.css.map",
+  "static/css/main.b499ff4c.chunk.css.map": "/team-flamingo/static/css/main.b499ff4c.chunk.css.map",
   "index.html": "/team-flamingo/index.html",
-  "precache-manifest.16557039b44353b9c0e38907c4952b6d.js": "/team-flamingo/precache-manifest.16557039b44353b9c0e38907c4952b6d.js",
+  "precache-manifest.189ef1985cfaddaee1419a749428fc72.js": "/team-flamingo/precache-manifest.189ef1985cfaddaee1419a749428fc72.js",
   "service-worker.js": "/team-flamingo/service-worker.js"
 }
