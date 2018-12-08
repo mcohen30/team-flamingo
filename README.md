@@ -2,9 +2,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, firsr run:
 
-### `npm start`
+### 'yarn install'
+
+To install the packages needed to run the website. (Only have to do it first time.)
+
+Then run the website using:
+
+### `yarn start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
