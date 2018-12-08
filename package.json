@@ -9,7 +9,7 @@
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
     "react-select": "^2.1.1",
-    "web3": "^0.20.0"
+    "web3": "0.20.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -25,5 +25,17 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcohen30/team-flamingo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcohen30/team-flamingo/issues"
+  },
+  "homepage": "https://github.com/mcohen30/team-flamingo#readme"
 }
