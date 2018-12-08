@@ -1,0 +1,26 @@
+.list {
+	list-style-type: none;
+	margin-top: 30px;
+}
+
+h3 {
+	margin-top: 30px;
+}
+
+#li_1,
+#li_3,
+#li_2 {
+	width: 80%;
+	margin-top: 2%;
+	margin-bottom: 3%;
+	font-size: 30px;
+}
+
+.container {
+	margin: 15px;
+}
+
+#hidden {
+	margin-top: 5px;
+	width: 80%;
+}
