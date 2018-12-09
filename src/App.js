@@ -34,9 +34,14 @@ function createJsonForInput(index, contractABIString){
 			for(i = 0; i < contractABI[index].inputs.length; i++){
 				
 					const item = {};
-					item["value"] = contractABI[index].inputs[i].name;
 					item["label"] = contractABI[index].inputs[i].name;
 					item["index"] = i;
+					if (contractABI[index].inputs[i].type.includes("uint")){
+						item["value"] = 0;
+					}
+					else{
+						item["value"] = "";
+					}
 					list.push(item);
 				
 			}
@@ -79,7 +84,7 @@ function connectContractEth(abi, addr){
 }
 
 //aAddr stands for account address
-function executeFunc(i, abi, cAddr, aAddr) {
+function executeFunc(i, abi, cAddr, aAddr, input) {
 	console.log("The account address is:");
 	console.log(aAddr);
 	console.log("the contract addr is:");
@@ -106,6 +111,7 @@ function executeFunc(i, abi, cAddr, aAddr) {
 				}
 				else{
 					document.getElementById("displayInfo").innerHTML = "";	
+					
 				}
 				
 			})
@@ -116,6 +122,8 @@ function executeFunc(i, abi, cAddr, aAddr) {
 		}
 	}
 	else{
+		console.log("The input is: ");
+		console.log(input);
 		document.getElementById("displayInfo").innerHTML = "executing the function that require user to pay gas is on the processs of being implemented";
 		console.log("executing the function that require user to pay gas is on the processs of being implemented");
 	}
@@ -141,7 +149,10 @@ export default class App extends Component {
 			contractAddr: "",
 			getAbi: false,
 			getEtherscanAbi: false,
+			//abi in string form (need it to check if the user enters an abi that can be in JSON form)
 			abi: "",
+			//abi in Json form
+			abiJson: [],
 
 			// drop down input
 			selectedOption: "",
@@ -190,8 +201,10 @@ export default class App extends Component {
 		
 		$.post('http://api.etherscan.io/api?module=contract&action=getabi&address=' + this.state.contractAddr, function (data) {
 			this.setState({abi: data.result});
+			this.setState({abiJson: JSON.parse(data.result)})
 			console.log("The Abi is retrived from etherscan. Here is the abi:");
 			console.log(this.state.abi);
+			console.log(this.state.abiJson);
 			
 		}.bind(this));
 		
@@ -199,22 +212,20 @@ export default class App extends Component {
 
 	async RetrieveContractAddr(){
 		await this.setState({contractAddr: this.refs.contractaddr.value});
-		//this.contractAddr = this.refs.contractaddr.value;
+		
 		console.log(this.state.contractAddr);
 	}
 
 	async handleRetrieveAbi(){
 		await this.setState({abi: this.refs.contractabi.value});
-		//this.abi = this.refs.contractabi.value;
+		await this.setState({abiJson: JSON.parse(this.refs.contractabi.value)});
 		console.log(this.state.abi);
 	}
 
 	async RetrieveInput(){
-		this.i = [];
-		this.inputItem ={};
-		this.inputItem["value"] = this.refs.userInput.value;
-		this.inputItem["index"] = this.state.index;
-		this.i.push(this.inputItem);
+		
+		this.i = createJsonForInput(this.state.index, this.state.abi);
+		this.i[this.state.inputIndex].value = this.refs.userInput.value;		
 		await this.setState({inputs: this.i});
 
 	}
@@ -231,6 +242,9 @@ export default class App extends Component {
 	// drop down one
 	handleChange1 = selectedOption => {
 		this.setState({ selectedOption: selectedOption.value });
+		var a = [2,3];
+		
+		
 		if(selectedOption.value === "C2"){
 			this.handleGetEtherscanAbi();			
 		}
@@ -242,26 +256,32 @@ export default class App extends Component {
 
 	// drop down two (executes the selected function)
 	handleChange2 = selectedOption => {
-		this.setState({ selectedOption2: selectedOption.value });
-		console.log(selectedOption.value);
+		//this.setState({ selectedOption2: selectedOption.value });
+		console.log(selectedOption.label);
 		console.log(selectedOption.index);
 		(async () => {
 			await this.setState({index: selectedOption.index});
 			console.log("Index: " + this.state.index);
 			console.log("Abi: " + this.state.abi);
-			var a = JSON.parse(this.state.abi);
-			if(a[this.state.index].inputs.length > 0){
+			
+			if(this.state.abiJson[this.state.index].inputs.length > 0){
 				this.setState({showInputDropDown: !this.state.showInputDropDown});
+			}else{
+				executeFunc(this.state.index, this.state.abiJson, this.state.contractAddr, this.state.acctAddr, this.state.inputs);
 			}
-			executeFunc(this.state.index, a, this.state.contractAddr, this.state.acctAddr);
-		})();		
-		
+		})();			
+			
 		// console.log(this.state.index);
 		// if(this.state.abi[this.state.index].inputs.length > 0){
 		// 	this.setState({showInputDropDown: !this.state.showInputDropDown});
 		// }
 		// executeFunc(this.state.index, JSON.parse(this.state.abi), this.state.contractAddr, this.state.acctAddr);
 	};
+
+	executeWithInputs(){
+		executeFunc(this.state.index, this.state.abiJson, this.state.contractAddr, this.state.acctAddr, this.state.inputs);
+	}
+	
 
 	async assignIndex (i){
 		await this.setState({index: i});
@@ -272,6 +292,11 @@ export default class App extends Component {
 		this.setState({ selectedOption3: selectedOption.value });
 		(async () =>{
 			this.setState({inputIndex: selectedOption.index});
+			
+			console.log("Inside Handle change 3:");
+			console.log("Abi: ");
+			console.log(this.state.abiJson);
+			console.log("index: " + this.state.index);
 			this.setState({getInputs: !this.state.getInputs})
 		})();
 		
@@ -408,14 +433,19 @@ export default class App extends Component {
 							this.state.getInputs && (
 									
 									<div>
-										{this.state.abi[this.state.index].inputs[this.state.inputIndex].name + " (" + this.state.abi[this.state.index].inputs[this.state.inputIndex].type + ")"}
+										{this.state.abiJson[this.state.index].inputs[this.state.inputIndex].name + " (" + this.state.abiJson[this.state.index].inputs[this.state.inputIndex].type + ")"}
 										<input ref = "userInput" type = "text" />
 										<br/>		
-										<button id = "Button" onClick = { (e) => {e.preventDefault(); this.RetriveInput(); this.handleSubmit()}}
+										<button id = "Button" onClick = { (e) => {e.preventDefault(); this.RetrieveInput()}}
 										>Submit</button>
+
+										<div>
+											<button id = "Button" onClick = { (e) => {e.preventDefault(); this.executeWithInputs()}}
+											>Finish Inputing and Execute</button>
+										</div>									 
+									</div>
 										
-										 
-									</div>	
+									
 						)}		
 						<h3 id = "displayInfo"></h3>
 						<li className="buttons">
