@@ -117,6 +117,31 @@ function executeFunc(i, abi, cAddr, aAddr, input) {
 			})
 		}
 		else{
+			var s = []; //inputs
+			for(var x = 0; x < input.length; x++){
+				s.push(input[x].value);
+
+			}
+			console.log(s);
+			console.log(contract.abi[i].name);
+			contract.tokenBalance(...s, {from:aAddr}, function (error, result){
+				if(!error){
+					console.log("The Result is: ");
+					console.log(result);
+
+					
+					if(contract.abi[i].outputs[0].type === "address" || "string"){
+						document.getElementById("displayInfo").innerHTML = result;
+					}
+					else{
+						document.getElementById("displayInfo").innerHTML = result.c[0];
+					}
+				}
+				else{
+					document.getElementById("displayInfo").innerHTML = "";	
+					
+				}
+			 })
 			document.getElementById("displayInfo").innerHTML = "Getting inputs from user is on the processs of being implemented";
 			console.log("Getting inputs from user is on the processs of being implemented");
 		}
@@ -127,6 +152,10 @@ function executeFunc(i, abi, cAddr, aAddr, input) {
 		document.getElementById("displayInfo").innerHTML = "executing the function that require user to pay gas is on the processs of being implemented";
 		console.log("executing the function that require user to pay gas is on the processs of being implemented");
 	}
+}
+
+function sum(a, b){
+	return a+b;
 }
 
 // ================================================================
@@ -224,9 +253,9 @@ export default class App extends Component {
 
 	async RetrieveInput(){
 		
-		this.i = createJsonForInput(this.state.index, this.state.abi);
-		this.i[this.state.inputIndex].value = this.refs.userInput.value;		
-		await this.setState({inputs: this.i});
+		
+		this.state.inputs[this.state.inputIndex].value = this.refs.userInput.value;		
+		
 
 	}
 
@@ -242,7 +271,10 @@ export default class App extends Component {
 	// drop down one
 	handleChange1 = selectedOption => {
 		this.setState({ selectedOption: selectedOption.value });
-		var a = [2,3];
+		var a = ["Hello", "World"];
+		var b = "sum";
+		
+		console.log(b["concat"].apply(b,a));
 		
 		
 		if(selectedOption.value === "C2"){
@@ -256,7 +288,7 @@ export default class App extends Component {
 
 	// drop down two (executes the selected function)
 	handleChange2 = selectedOption => {
-		//this.setState({ selectedOption2: selectedOption.value });
+		this.setState({ selectedOption2: selectedOption.value });
 		console.log(selectedOption.label);
 		console.log(selectedOption.index);
 		(async () => {
@@ -265,7 +297,10 @@ export default class App extends Component {
 			console.log("Abi: " + this.state.abi);
 			
 			if(this.state.abiJson[this.state.index].inputs.length > 0){
-				this.setState({showInputDropDown: !this.state.showInputDropDown});
+					await this.setState({inputs: createJsonForInput(this.state.index, this.state.abi)})
+					this.setState({showInputDropDown: true});
+					
+				
 			}else{
 				executeFunc(this.state.index, this.state.abiJson, this.state.contractAddr, this.state.acctAddr, this.state.inputs);
 			}
@@ -279,6 +314,8 @@ export default class App extends Component {
 	};
 
 	executeWithInputs(){
+		console.log("The inputs: ");
+		console.log(this.state.inputs);
 		executeFunc(this.state.index, this.state.abiJson, this.state.contractAddr, this.state.acctAddr, this.state.inputs);
 	}
 	
@@ -289,7 +326,7 @@ export default class App extends Component {
 	}
 
 	handleChange3 = selectedOption => {
-		this.setState({ selectedOption3: selectedOption.value });
+		this.setState({ selectedOption3: selectedOption.label });
 		(async () =>{
 			this.setState({inputIndex: selectedOption.index});
 			
@@ -297,7 +334,7 @@ export default class App extends Component {
 			console.log("Abi: ");
 			console.log(this.state.abiJson);
 			console.log("index: " + this.state.index);
-			this.setState({getInputs: !this.state.getInputs})
+			this.setState({getInputs: true})
 		})();
 		
 		
