@@ -124,7 +124,7 @@ function executeFunc(i, abi, cAddr, aAddr, input) {
 			}
 			console.log(s);
 			console.log(contract.abi[i].name);
-			contract.tokenBalance(...s, {from:aAddr}, function (error, result){
+			contract[contract.abi[i].name](...s, {from:aAddr}, function (error, result){
 				if(!error){
 					console.log("The Result is: ");
 					console.log(result);
@@ -149,14 +149,11 @@ function executeFunc(i, abi, cAddr, aAddr, input) {
 	else{
 		console.log("The input is: ");
 		console.log(input);
-		document.getElementById("displayInfo").innerHTML = "executing the function that require user to pay gas is on the processs of being implemented";
+		document.getElementById("displayInfo").innerHTML = "You do not have enough pirl to execute the function";
 		console.log("executing the function that require user to pay gas is on the processs of being implemented");
 	}
 }
 
-function sum(a, b){
-	return a+b;
-}
 
 // ================================================================
 
@@ -198,6 +195,8 @@ export default class App extends Component {
 			inputIndex: 0,
 			inputs: [],
 
+			showNotification: false,
+
 			
 		};
 		
@@ -230,7 +229,12 @@ export default class App extends Component {
 		
 		$.post('http://api.etherscan.io/api?module=contract&action=getabi&address=' + this.state.contractAddr, function (data) {
 			this.setState({abi: data.result});
-			this.setState({abiJson: JSON.parse(data.result)})
+			if(IsJsonString(data.result)=== true){
+				this.setState({abiJson: JSON.parse(data.result)})
+			}
+			else{
+				this.setState({abiJson: []});
+			}
 			console.log("The Abi is retrived from etherscan. Here is the abi:");
 			console.log(this.state.abi);
 			console.log(this.state.abiJson);
@@ -263,24 +267,27 @@ export default class App extends Component {
 	handleSubmit(){
 		
 		console.log("Submitted");
-		this.setState({showFunctionDropDown: !this.state.showFunctionDropDown});
+		console.log(this.state.abiJson);
+		if(this.state.abiJson.length != 0){
+			this.setState({showNotification: false});
+			this.setState({showFunctionDropDown: !this.state.showFunctionDropDown});
+		}
+		else {
+			this.setState({showNotification: true})
+		}
 		
 	};
 
 
 	// drop down one
 	handleChange1 = selectedOption => {
-		this.setState({ selectedOption: selectedOption.value });
-		var a = ["Hello", "World"];
-		var b = "sum";
-		
-		console.log(b["concat"].apply(b,a));
-		
+		this.setState({ selectedOption: selectedOption.value });		
 		
 		if(selectedOption.value === "C2"){
 			this.handleGetEtherscanAbi();			
 		}
 		if (selectedOption.value === "C3"){
+			this.setState({showNotification: false});
 			this.handleGetAbi();
 		}
 		console.log(selectedOption.value);
@@ -485,6 +492,15 @@ export default class App extends Component {
 									
 						)}		
 						<h3 id = "displayInfo"></h3>
+						{
+						this.state.showNotification && (
+									
+									<div>
+										<h2>The contract is not verified. Please use the other option and input a custom abi and or enter another etherscan verified abi</h2>								 
+									</div>
+										
+									
+						)}	
 						<li className="buttons">
 							<input type="hidden" name="form_id" value="29559" />
 
